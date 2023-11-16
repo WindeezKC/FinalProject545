@@ -28,8 +28,18 @@ print(f"End date: {end_date.strftime('%Y-%m-%d')}")
 data = pd.read_csv(Filterd_csv)
 data ['Buy Open Sell Close - Profit'] = data['Close'] - data['Open'].round(2)
 total_OPEN_CLOSE_profit = data['Buy Open Sell Close - Profit'].sum().round(2)
+max_profit_BTC = data['Buy Open Sell Close - Profit'].idxmax()
+max_profit_date_BTC = data.loc[max_profit_BTC, 'Date']
+max_profit_amount = data.loc[max_profit_BTC, 'Buy Open Sell Close - Profit']
+print(f"The maximum profit for a single day was ${max_profit_amount:.2f} on {max_profit_date_BTC}")
 
+#data[data['Open']==data['Open'].max()]['Date','Open']
+
+
+#data[data['Open'] == data['Open'].max()][['Date', 'Open']]
 print(f"Buying at Open and selling at close profit {total_OPEN_CLOSE_profit}")
+
+
 
 
 
@@ -94,8 +104,17 @@ end_date = data['Date'].iloc[-1]
 print(f"LTC Start date: {start_date.strftime('%Y-%m-%d')}")
 print(f"LTC End date: {end_date.strftime('%Y-%m-%d')}")
 data = pd.read_csv(ltc_filtered)
+data['Date'] = pd.to_datetime(data['Date'])
+data['Buy Open Sell Close - Profit'] = data['Close'] - data['Open']
 data ['Buy Open Sell Close - Profit'] = data['Close'] - data['Open'].round(2)
 total_OPEN_CLOSE_profit = data['Buy Open Sell Close - Profit'].sum().round(2)
+#Max profit for a day LTC
+max_profit_LTC = data['Buy Open Sell Close - Profit'].idxmax()
+max_profit_date_LTC = data.loc[max_profit_LTC, 'Date']
+print(f"The maximum profit for a single day on LTC was ${max_profit_amount:.2f} on {max_profit_date_LTC}")
+
+
+
 print(f"LTC: Buying at Open and selling at close profit {total_OPEN_CLOSE_profit}")
 Open_close_profit_LTC = "Open_close_profit_LTC.csv"
 #Open_close_profit ="C:\\Users\\kella\\Desktop\\545\\Final Project\\Open_close_profit.csv"
@@ -118,7 +137,7 @@ data['Graph - Buy Close Sell Open'] = data['Buy Close Sell Open - Profit'].cumsu
 plt.figure(figsize=(14, 7))
 plt.plot(data['Date'], data['Graph - Buy Open Sell Close'], label='Daily Profit', color='green')
 plt.plot(data['Date'], data['Graph - Buy Close Sell Open'], label='Daily Profit', color='orange')
-plt.title('Buying Open LTC (Green) vs Buying Close (Orange) for Bitcoin')
+plt.title('Buying Open LTC (Green) vs Buying Close (Orange) for LTC')
 plt.xlabel('Date')
 plt.ylabel('Profit in USD')
 plt.legend()
@@ -144,11 +163,14 @@ start_date = data['Date'].iloc[0]
 end_date = data['Date'].iloc[-1]
 print(f"ETH Start date: {start_date.strftime('%Y-%m-%d')}")
 print(f"ETH End date: {end_date.strftime('%Y-%m-%d')}")
-
+data['Date'] = pd.to_datetime(data['Date']) 
 data = pd.read_csv(eth_filtered)
 data['Buy Open Sell Close - Profit'] = data['Close'] - data['Open'].round(2)
 total_OPEN_CLOSE_profit = data['Buy Open Sell Close - Profit'].sum().round(2)
-
+max_profit_ETH = data['Buy Open Sell Close - Profit'].idxmax()
+max_profit_date_ETH = data.loc[max_profit_ETH, 'Date']
+max_profit_amount = data.loc[max_profit_ETH, 'Buy Open Sell Close - Profit']
+print(f"The maximum profit for a single day was ${max_profit_amount:.2f} on {max_profit_date_ETH}")
 
 print(f"ETH: Buying at open adn Selling at close profit :{total_CLOSE_OPEN_profit}")
 Open_close_profit_ETH = "Open_close_profit_ETH.csv"
@@ -173,7 +195,7 @@ data['Graph - Buy Close Sell Open'] = data['Buy Close Sell Open - Profit'].cumsu
 plt.figure(figsize=(14, 7))
 plt.plot(data['Date'], data['Graph - Buy Open Sell Close'], label='Daily Profit', color='purple')
 plt.plot(data['Date'], data['Graph - Buy Close Sell Open'], label='Daily Profit', color='cyan')
-plt.title('Buying Open ETH (Purple) vs Buying Close (Cyan) for Bitcoin')
+plt.title('Buying Open (Purple) vs Buying Close (Cyan) for ETH')
 plt.xlabel('Date')
 plt.ylabel('Profit in USD')
 plt.legend()
